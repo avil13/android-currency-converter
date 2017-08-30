@@ -10,10 +10,15 @@ public class MainPresenter {
 
     private static MainPresenter instance = new MainPresenter();
 
-    private static Converter converter;
+    private Converter converter;
 
     private MainPresenter() {
-        converter = new Converter();
+        converter = Converter.getInstance();
+
+        CurrencyRequest currencyRequest = new CurrencyRequest();
+        currencyRequest.get();
+
+
     }
 
 
