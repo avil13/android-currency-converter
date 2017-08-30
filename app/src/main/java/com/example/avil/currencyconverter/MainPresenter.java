@@ -26,8 +26,13 @@ public class MainPresenter {
     }
 
     public String convert(String from, String to, String v) {
+        if ("".equals(v)) {
+            return "";
+        }
+
         double val = Double.parseDouble(v);
         double res = converter.convert(from, to, val);
+
         return String.valueOf(res);
     }
 

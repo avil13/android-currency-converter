@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP) {
                     String res = presenter.convert(
-                            spinner1.toString(),
-                            spinner2.toString(),
+                            spinner1.getSelectedItem().toString(),
+                            spinner2.getSelectedItem().toString(),
                             moneyIn.getText().toString()
                     );
 
