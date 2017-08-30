@@ -10,7 +10,12 @@ public class MainPresenter {
 
     private static MainPresenter instance = new MainPresenter();
 
-    private MainPresenter() {}
+    private static Converter converter;
+
+    private MainPresenter() {
+        converter = new Converter();
+    }
+
 
     public static MainPresenter getInstance() {
         return instance;
@@ -19,4 +24,11 @@ public class MainPresenter {
     public void setActivity(MainActivity activity) {
         this.activity = activity;
     }
+
+    public String convert(String from, String to, String v) {
+        double val = Double.parseDouble(v);
+        double res = converter.convert(from, to, val);
+        return String.valueOf(res);
+    }
+
 }
