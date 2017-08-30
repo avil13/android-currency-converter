@@ -34,7 +34,7 @@ public class SpinerAdapter {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(context, "Spinner Position " + i, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Spinner Position " + i, Toast.LENGTH_SHORT).show();
             }
 
             @Override

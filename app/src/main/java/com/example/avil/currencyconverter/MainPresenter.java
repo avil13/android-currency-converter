@@ -1,24 +1,24 @@
 package com.example.avil.currencyconverter;
 
-/**
- * Created by avil on 29.08.17.
- */
+import android.util.Log;
+import android.widget.Toast;
 
-public class MainPresenter {
+import curseValue.CurseParser;
+
+
+public class MainPresenter implements ICallBack {
 
     private MainActivity activity;
 
     private static MainPresenter instance = new MainPresenter();
 
     private Converter converter;
+    private static CurrencyRequest currencyRequest;
 
     private MainPresenter() {
         converter = Converter.getInstance();
 
-        CurrencyRequest currencyRequest = new CurrencyRequest();
-        currencyRequest.get();
-
-
+        currencyRequest = new CurrencyRequest();
     }
 
 
@@ -39,6 +39,25 @@ public class MainPresenter {
         double res = converter.convert(from, to, val);
 
         return String.valueOf(res);
+    }
+
+
+
+    public void updateCurce(){
+        Log.i("LOG===>", "OK 2");
+
+        currencyRequest.get(instance);
+    }
+
+    // обновление данных о курсах
+    public void updateCurseData(){
+        Log.i("LOG===>", "OK 3");
+        CurseParser curseParser = currencyRequest.getCurse();
+
+        converter.put("EUR", curseParser.getVal("EUR"));
+        converter.put("USD", curseParser.getVal("USD"));
+
+        Toast.makeText(activity, "The course was updated", Toast.LENGTH_SHORT).show();
     }
 
 }

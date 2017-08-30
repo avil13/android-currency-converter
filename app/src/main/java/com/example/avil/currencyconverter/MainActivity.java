@@ -56,8 +56,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("LOG===>", "OK 1");
+        presenter.updateCurce();
+    }
 }

@@ -1,21 +1,10 @@
 package com.example.avil.currencyconverter;
 
 
-import android.util.Log;
-
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Persister;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import curseValue.CurseParser;
 
@@ -25,13 +14,13 @@ import curseValue.CurseParser;
 
 public class CurrencyRequest {
 
-//    String path = "http://www.cbr.ru/scripts/XML_daily.asp";
-    String path = "http://localhost:8080/curs.xml";
+//    private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
+    private static final String path = "http://localhost:8080/curs.xml";
 
     CurseParser curseParser;
 
 
-    public void get() {
+    public void get(ICallBack callBack) {
         StringBuilder stringBuilder = new StringBuilder();
 
         HttpURLConnection urlConnection = null;
@@ -54,6 +43,8 @@ public class CurrencyRequest {
             }
 
             parseData(stringBuilder.toString());
+
+            callBack.updateCurseData();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -68,8 +59,17 @@ public class CurrencyRequest {
         curseParser = new CurseParser(xml);
     }
 
-    public CurseParser getCurse(){
+    public CurseParser getCurse() {
         return curseParser;
     }
 
+//
+//    public void get() {
+//        get(new FakeCallback());
+//    }
+//
+//    private class FakeCallback implements ICallBack {
+//        public void updateCurseData() {
+//        }
+//    }
 }
