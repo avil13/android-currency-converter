@@ -12,7 +12,7 @@ public class SpinerAdapter {
     public static String[] DATA = {"RUB", "USD", "EUR"};
 
 
-    public SpinerAdapter(final MainActivity mainActivity, Spinner spinner) {
+    public SpinerAdapter(final MainActivity mainActivity, Spinner spinner, int pos) {
 
         final Context context = (Context) mainActivity;
 
@@ -23,7 +23,7 @@ public class SpinerAdapter {
 
         spinner.setAdapter(adapter);
 //      spinner.setPrompt("Валюта"); // Заголовок
-        spinner.setSelection(0); // Выделение элемента
+        spinner.setSelection(pos); // Выделение элемента
 
         // обработчик нажатия
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -36,10 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         spinner1 = (Spinner) findViewById(R.id.spinner_1);
-        SpinerAdapter spinnerAdapter1 = new SpinerAdapter(this, spinner1);
+        SpinerAdapter spinnerAdapter1 = new SpinerAdapter(this, spinner1, 0);
 
         spinner2 = (Spinner) findViewById(R.id.spinner_2);
-        SpinerAdapter spinnerAdapter2 = new SpinerAdapter(this, spinner2);
+        SpinerAdapter spinnerAdapter2 = new SpinerAdapter(this, spinner2, 1);
 
         moneyOut = (TextView) findViewById(R.id.money_out);
 
