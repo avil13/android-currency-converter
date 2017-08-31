@@ -25,8 +25,8 @@ public class CurseParser {
     }
 
 
-    public double getVal(String code) {
-        return Double.parseDouble(curs.getValute(code).value.replace(",", "."));
+    public float getVal(String code) {
+        return Float.parseFloat(curs.getValute(code).value.replace(",", "."));
     }
 
 }

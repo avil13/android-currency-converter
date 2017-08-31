@@ -35,8 +35,8 @@ public class MainPresenter implements ICallBack {
             return "";
         }
 
-        double val = Double.parseDouble(v);
-        double res = converter.convert(from, to, val);
+        float val = Float.parseFloat(v);
+        float res = converter.convert(from, to, val);
 
         return String.valueOf(res);
     }

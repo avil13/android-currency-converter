@@ -10,11 +10,11 @@ public class Converter {
     private static Converter instance = new Converter();
 
     // rub eur usd
-    HashMap<String, Double> course = new HashMap<>();
+    HashMap<String, Float> course = new HashMap<>();
 
     private Converter() {
         for (int i = 0; i < CurrencyDict.ALL.length; i++) {
-            course.put(CurrencyDict.ALL[i], 1d);
+            course.put(CurrencyDict.ALL[i], 1f);
         }
     }
 
@@ -23,14 +23,14 @@ public class Converter {
     }
 
 
-    public void put(String key, double v) {
+    public void put(String key, float v) {
         course.put(key, v);
     }
 
 
-    double convert(String from, String to, double v) {
-        Double fromVal = course.get(from);
-        Double toVal = course.get(to);
+    float convert(String from, String to, float v) {
+        float fromVal = course.get(from);
+        float toVal = course.get(to);
 
         return (fromVal / toVal) * v;
     }
