@@ -16,8 +16,8 @@ public interface IMainPresenter {
 
     void updateCurce();
 
-    void makeSpinner(final MainView activity, Spinner spinner, int pos);
+    String[] spinnerData();
 
-    // обновление данных о курсах
+    // коллбек обновление данных о курсах
     void updateCurseData();
 }

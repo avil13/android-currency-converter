@@ -65,7 +65,7 @@ public class MainPresenter implements ICallBack, IMainPresenter {
     }
 
 
-    // обновление данных о курсах
+    // коллбек обновление данных о курсах
     @Override
     public void updateCurseData() {
         CurseParser curseParser = currencyRequest.getCurse();
@@ -77,31 +77,8 @@ public class MainPresenter implements ICallBack, IMainPresenter {
     }
 
 
-    public void makeSpinner(final MainView activity, Spinner spinner, int pos) {
-
-        final Context context = (Context) activity;
-
-        // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, CurrencyDict.ALL);
-
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-        // spinner.setPrompt("Валюта"); // Заголовок
-        spinner.setSelection(pos); // Выделение элемента
-
-        // обработчик нажатия
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                activity.updateMoneyOutText();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    public String[] spinnerData(){
+        return CurrencyDict.ALL;
     }
 
 
