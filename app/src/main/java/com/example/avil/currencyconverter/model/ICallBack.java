@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter;
+package com.example.avil.currencyconverter.model;
 
 /**
  * Created by avil on 30.08.17.

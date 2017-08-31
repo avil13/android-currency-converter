@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter;
+package com.example.avil.currencyconverter.model;
 
 
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import curseValue.CurseParser;
 
 
 
-public class CurrencyRequest {
+public class CurrencyRequest implements ICurrencyRequest {
 
     private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
 //    private static final String path = "http://10.42.75.90:8080/curs.xml";
@@ -18,6 +18,7 @@ public class CurrencyRequest {
     CurseParser curseParser;
 
 
+    @Override
     public void get(final ICallBack callBack) {
 
         new Thread() {
@@ -65,6 +66,7 @@ public class CurrencyRequest {
         curseParser = new CurseParser(xml);
     }
 
+    @Override
     public CurseParser getCurse() {
         return curseParser;
     }

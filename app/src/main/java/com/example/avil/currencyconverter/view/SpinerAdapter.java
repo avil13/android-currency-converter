@@ -1,10 +1,12 @@
-package com.example.avil.currencyconverter;
+package com.example.avil.currencyconverter.view;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.example.avil.currencyconverter.R;
 
 import dictionary.CurrencyDict;
 

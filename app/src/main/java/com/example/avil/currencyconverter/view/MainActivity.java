@@ -1,28 +1,27 @@
-package com.example.avil.currencyconverter;
+package com.example.avil.currencyconverter.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.avil.currencyconverter.presenter.IMainPresenter;
+import com.example.avil.currencyconverter.presenter.MainPresenter;
+import com.example.avil.currencyconverter.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements MainView {
 
-    String[] spins = {"", ""};
-    MainPresenter presenter;
+    private IMainPresenter presenter;
 
-    EditText moneyIn;
-    TextView moneyOut;
+    private EditText moneyIn;
+    private TextView moneyOut;
 
-    Spinner spinner1;
-    Spinner spinner2;
+    private Spinner spinner1;
+    private Spinner spinner2;
 
 
     @Override
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         presenter = MainPresenter.getInstance();
 
-        presenter.setActivity(this);
+        presenter.setView(this);
 
 
         spinner1 = (Spinner) findViewById(R.id.spinner_1);

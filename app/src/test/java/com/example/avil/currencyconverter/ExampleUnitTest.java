@@ -10,8 +10,18 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    private static final String xml = "";
+
+
     @Test
     public void addition_isCorrect() throws Exception {
+        //создать парсер
+
+        //вытащить объект
+
+
+
         assertEquals(4, 2 + 2);
     }
 }

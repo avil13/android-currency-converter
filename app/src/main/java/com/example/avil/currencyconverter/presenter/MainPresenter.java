@@ -1,15 +1,22 @@
-package com.example.avil.currencyconverter;
+package com.example.avil.currencyconverter.presenter;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.widget.Toast;
+
+import com.example.avil.currencyconverter.model.Converter;
+import com.example.avil.currencyconverter.model.CurrencyRequest;
+import com.example.avil.currencyconverter.model.ICallBack;
+import com.example.avil.currencyconverter.view.MainActivity;
+import com.example.avil.currencyconverter.view.MainView;
 
 import curseValue.CurseParser;
 import dictionary.CurrencyDict;
 
 
-public class MainPresenter implements ICallBack {
+public class MainPresenter implements ICallBack, IMainPresenter {
 
-    private MainActivity activity;
+    private MainView mainView;
 
     private static MainPresenter instance = new MainPresenter();
 
@@ -28,13 +35,15 @@ public class MainPresenter implements ICallBack {
     }
 
 
-    public void setActivity(MainActivity activity) {
-        this.activity = activity;
+    @Override
+    public void setView(MainView mainView) {
+        this.mainView = mainView;
 
-        readFromCache();
+        converter.loadLocalData((Activity) mainView);
     }
 
 
+    @Override
     public String convert(String from, String to, String v) {
         if ("".equals(v)) {
             return "";
@@ -47,12 +56,14 @@ public class MainPresenter implements ICallBack {
     }
 
 
+    @Override
     public void updateCurce() {
         currencyRequest.get(instance);
     }
 
 
     // обновление данных о курсах
+    @Override
     public void updateCurseData() {
         CurseParser curseParser = currencyRequest.getCurse();
 
@@ -61,25 +72,16 @@ public class MainPresenter implements ICallBack {
             put(name, curseParser.getVal(name));
         }
 
-        Toast.makeText(activity, "The course was updated", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mainView, "The course was updated", Toast.LENGTH_SHORT).show();
     }
 
 
     private void put(String k, float v) {
         converter.put(k, v);
 
-        SharedPreferences.Editor editor = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE).edit();
-        editor.putFloat(k, v);
-        editor.commit();
+        converter.saveRow((Activity) mainView, k, v  );
     }
 
 
-    private void readFromCache() {
-        SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
-
-        for (int i = 0; i < CurrencyDict.ALL.length; i++) {
-            converter.put(CurrencyDict.ALL[i], sp.getFloat(CurrencyDict.ALL[i], 1f));
-        }
-    }
 
 }
