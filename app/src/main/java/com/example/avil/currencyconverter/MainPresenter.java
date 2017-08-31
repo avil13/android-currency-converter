@@ -1,5 +1,6 @@
 package com.example.avil.currencyconverter;
 
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import curseValue.CurseParser;
@@ -16,7 +17,7 @@ public class MainPresenter implements ICallBack {
     private static CurrencyRequest currencyRequest;
 
     private MainPresenter() {
-        converter = Converter.getInstance();
+        converter = new Converter();
 
         currencyRequest = new CurrencyRequest();
     }
@@ -26,9 +27,13 @@ public class MainPresenter implements ICallBack {
         return instance;
     }
 
+
     public void setActivity(MainActivity activity) {
         this.activity = activity;
+
+        readFromCache();
     }
+
 
     public String convert(String from, String to, String v) {
         if ("".equals(v)) {
@@ -42,21 +47,40 @@ public class MainPresenter implements ICallBack {
     }
 
 
-
-    public void updateCurce(){
+    public void updateCurce() {
         currencyRequest.get(instance);
     }
 
+
     // обновление данных о курсах
-    public void updateCurseData(){
+    public void updateCurseData() {
         CurseParser curseParser = currencyRequest.getCurse();
 
         for (int i = 0; i < CurrencyDict.OTHER.length; i++) {
             String name = CurrencyDict.OTHER[i];
-            converter.put(name, curseParser.getVal(name));
+            put(name, curseParser.getVal(name));
         }
 
         Toast.makeText(activity, "The course was updated", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void put(String k, float v) {
+        converter.put(k, v);
+
+        SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putFloat(k, v);
+        editor.commit();
+    }
+
+
+    private void readFromCache() {
+        SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
+
+        for (int i = 0; i < CurrencyDict.ALL.length; i++) {
+            converter.put(CurrencyDict.ALL[i], sp.getFloat(CurrencyDict.ALL[i], 1f));
+        }
     }
 
 }

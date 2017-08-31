@@ -7,19 +7,13 @@ import dictionary.CurrencyDict;
 
 public class Converter {
 
-    private static Converter instance = new Converter();
-
     // rub eur usd
     HashMap<String, Float> course = new HashMap<>();
 
-    private Converter() {
+    Converter() {
         for (int i = 0; i < CurrencyDict.ALL.length; i++) {
             course.put(CurrencyDict.ALL[i], 1f);
         }
-    }
-
-    public static Converter getInstance() {
-        return instance;
     }
 
 

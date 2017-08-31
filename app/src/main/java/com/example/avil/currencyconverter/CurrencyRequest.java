@@ -12,8 +12,8 @@ import curseValue.CurseParser;
 
 public class CurrencyRequest {
 
-//    private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
-    private static final String path = "http://10.42.75.90:8080/curs.xml";
+    private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
+//    private static final String path = "http://10.42.75.90:8080/curs.xml";
 
     CurseParser curseParser;
 
