@@ -2,9 +2,6 @@ package com.example.avil.currencyconverter;
 
 import java.util.HashMap;
 
-/**
- * Created by avil on 30.08.17.
- */
 
 public class Converter {
 

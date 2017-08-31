@@ -8,6 +8,7 @@ import org.simpleframework.xml.core.Persister;
 import java.io.Reader;
 import java.io.StringReader;
 
+
 public class CurseParser {
 
     public ValCurs curs;
@@ -23,7 +24,6 @@ public class CurseParser {
 
         } catch (Exception e) {
             Log.e("SimpleXML::", e.getMessage());
-//            System.err.println(e.getMessage());
         }
     }
 

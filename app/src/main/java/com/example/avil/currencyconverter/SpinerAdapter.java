@@ -7,34 +7,30 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-/**
- * Created by avil on 29.08.17.
- */
 
 public class SpinerAdapter {
     public static String[] DATA = {"RUB", "USD", "EUR"};
 
 
-    public SpinerAdapter(final Context context, Spinner spinner) {
+    public SpinerAdapter(final MainActivity mainActivity, Spinner spinner) {
+
+        final Context context = (Context) mainActivity;
 
         // адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, DATA);
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-//        Spinner spinner = (Spinner) spinner.findViewById();
-
         spinner.setAdapter(adapter);
-//        // Заголовок
-//        spinner.setPrompt("Валюта");
-        // Выделение элемента
-        spinner.setSelection(0);
+//      spinner.setPrompt("Валюта"); // Заголовок
+        spinner.setSelection(0); // Выделение элемента
 
         // обработчик нажатия
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(context, "Spinner Position " + i, Toast.LENGTH_SHORT).show();
+//              Toast.makeText(context, "Spinner Position " + i, Toast.LENGTH_SHORT).show();
+                mainActivity.updateMoneyOutText();
             }
 
             @Override

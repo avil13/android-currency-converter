@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     EditText moneyIn;
     TextView moneyOut;
 
+    Spinner spinner1;
+    Spinner spinner2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         presenter.setActivity(this);
 
 
-        final Spinner spinner1 = (Spinner) findViewById(R.id.spinner_1);
+        spinner1 = (Spinner) findViewById(R.id.spinner_1);
         SpinerAdapter spinnerAdapter1 = new SpinerAdapter(this, spinner1);
 
-        final Spinner spinner2 = (Spinner) findViewById(R.id.spinner_2);
+        spinner2 = (Spinner) findViewById(R.id.spinner_2);
         SpinerAdapter spinnerAdapter2 = new SpinerAdapter(this, spinner2);
 
         moneyOut = (TextView) findViewById(R.id.money_out);
@@ -45,13 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP) {
-                    String res = presenter.convert(
-                            spinner1.getSelectedItem().toString(),
-                            spinner2.getSelectedItem().toString(),
-                            moneyIn.getText().toString()
-                    );
-
-                    moneyOut.setText(res);
+                    updateMoneyOutText();
                 }
                 return false;
             }
@@ -63,5 +61,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         presenter.updateCurce();
+    }
+
+
+    public void updateMoneyOutText() {
+        String res = presenter.convert(
+                spinner1.getSelectedItem().toString(),
+                spinner2.getSelectedItem().toString(),
+                moneyIn.getText().toString()
+        );
+
+        moneyOut.setText(res);
     }
 }
