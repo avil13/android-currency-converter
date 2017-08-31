@@ -2,20 +2,20 @@ package com.example.avil.currencyconverter;
 
 import java.util.HashMap;
 
+import dictionary.CurrencyDict;
+
 
 public class Converter {
 
     private static Converter instance = new Converter();
 
     // rub eur usd
-    HashMap<String, Double> course;
+    HashMap<String, Double> course = new HashMap<>();
 
     private Converter() {
-        course = new HashMap<>();
-
-        course.put("RUB", 1d);
-        course.put("EUR", 70d);
-        course.put("USD", 59d);
+        for (int i = 0; i < CurrencyDict.ALL.length; i++) {
+            course.put(CurrencyDict.ALL[i], 1d);
+        }
     }
 
     public static Converter getInstance() {

@@ -5,19 +5,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import dictionary.CurrencyDict;
 
 
 public class SpinerAdapter {
-    public static String[] DATA = {"RUB", "USD", "EUR"};
-
 
     public SpinerAdapter(final MainActivity mainActivity, Spinner spinner, int pos) {
 
         final Context context = (Context) mainActivity;
 
         // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, DATA);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, CurrencyDict.ALL);
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 

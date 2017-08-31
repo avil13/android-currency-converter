@@ -1,9 +1,9 @@
 package com.example.avil.currencyconverter;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import curseValue.CurseParser;
+import dictionary.CurrencyDict;
 
 
 public class MainPresenter implements ICallBack {
@@ -51,8 +51,10 @@ public class MainPresenter implements ICallBack {
     public void updateCurseData(){
         CurseParser curseParser = currencyRequest.getCurse();
 
-        converter.put("EUR", curseParser.getVal("EUR"));
-        converter.put("USD", curseParser.getVal("USD"));
+        for (int i = 0; i < CurrencyDict.OTHER.length; i++) {
+            String name = CurrencyDict.OTHER[i];
+            converter.put(name, curseParser.getVal(name));
+        }
 
         Toast.makeText(activity, "The course was updated", Toast.LENGTH_SHORT).show();
     }

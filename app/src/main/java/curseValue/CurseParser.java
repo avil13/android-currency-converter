@@ -19,9 +19,6 @@ public class CurseParser {
 
         try {
             curs = serializer.read(ValCurs.class, reader, false);
-//            System.out.println(getVal("EUR"));
-//            System.out.println(getVal("USD"));
-
         } catch (Exception e) {
             Log.e("SimpleXML::", e.getMessage());
         }
