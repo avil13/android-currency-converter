@@ -43,7 +43,7 @@ public class MainPresenter implements ICallBack {
         float val = Float.parseFloat(v);
         float res = converter.convert(from, to, val);
 
-        return String.valueOf(res);
+        return String.format("%4.2f", res);
     }
 
 
@@ -68,8 +68,7 @@ public class MainPresenter implements ICallBack {
     private void put(String k, float v) {
         converter.put(k, v);
 
-        SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
+        SharedPreferences.Editor editor = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE).edit();
         editor.putFloat(k, v);
         editor.commit();
     }
