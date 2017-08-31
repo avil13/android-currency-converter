@@ -8,50 +8,56 @@ import java.net.URL;
 
 import curseValue.CurseParser;
 
-/**
- * Created by avil on 29.08.17.
- */
+
 
 public class CurrencyRequest {
 
 //    private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
-    private static final String path = "http://localhost:8080/curs.xml";
+    private static final String path = "http://10.42.75.90:8080/curs.xml";
 
     CurseParser curseParser;
 
 
-    public void get(ICallBack callBack) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public void get(final ICallBack callBack) {
 
-        HttpURLConnection urlConnection = null;
-        URL url;
+        new Thread() {
+            @Override
+            public void run() {
+                StringBuffer stringBuffer = new StringBuffer();
 
-        try {
-            url = new URL(path);
+                HttpURLConnection urlConnection = null;
+                URL url;
 
-            urlConnection = (HttpURLConnection) url.openConnection();
+                try {
+                    url = new URL(path);
 
-            InputStream in = urlConnection.getInputStream();
+                    urlConnection = (HttpURLConnection) url.openConnection();
 
-            InputStreamReader isw = new InputStreamReader(in);
+                    InputStream in = urlConnection.getInputStream();
 
-            int data = isw.read();
+                    InputStreamReader isw = new InputStreamReader(in);
 
-            while (data != -1) {
-                stringBuilder.append((char) data);
-                data = isw.read();
+                    int data = isw.read();
+
+                    while (data != -1) {
+                        stringBuffer.append((char) data);
+                        data = isw.read();
+                    }
+
+                    parseData(stringBuffer.toString());
+
+                    callBack.updateCurseData();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                }
+
             }
-
-            parseData(stringBuilder.toString());
-
-            callBack.updateCurseData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
+        }.start();
     }
 
 
@@ -62,14 +68,4 @@ public class CurrencyRequest {
     public CurseParser getCurse() {
         return curseParser;
     }
-
-//
-//    public void get() {
-//        get(new FakeCallback());
-//    }
-//
-//    private class FakeCallback implements ICallBack {
-//        public void updateCurseData() {
-//        }
-//    }
 }

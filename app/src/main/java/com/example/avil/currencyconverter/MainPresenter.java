@@ -44,14 +44,11 @@ public class MainPresenter implements ICallBack {
 
 
     public void updateCurce(){
-        Log.i("LOG===>", "OK 2");
-
         currencyRequest.get(instance);
     }
 
     // обновление данных о курсах
     public void updateCurseData(){
-        Log.i("LOG===>", "OK 3");
         CurseParser curseParser = currencyRequest.getCurse();
 
         converter.put("EUR", curseParser.getVal("EUR"));
