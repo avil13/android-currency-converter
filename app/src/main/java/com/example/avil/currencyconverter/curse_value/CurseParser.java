@@ -1,4 +1,4 @@
-package curseValue;
+package com.example.avil.currencyconverter.curse_value;
 
 
 import android.util.Log;

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
-import dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.dictionary.CurrencyDict;
 
 
 public class Converter implements IConverter {
@@ -37,7 +37,8 @@ public class Converter implements IConverter {
         SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
 
         for (int i = 0; i < CurrencyDict.ALL.length; i++) {
-            put(CurrencyDict.ALL[i], sp.getFloat(CurrencyDict.ALL[i], 1f));
+            String name = CurrencyDict.ALL[i];
+            put(name, sp.getFloat(name, 1f));
         }
     }
 

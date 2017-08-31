@@ -1,6 +1,6 @@
 package com.example.avil.currencyconverter.model;
 
-import curseValue.CurseParser;
+import com.example.avil.currencyconverter.curse_value.CurseParser;
 
 /**
  * Created by avil on 31.08.17.

@@ -1,17 +1,20 @@
 package com.example.avil.currencyconverter.presenter;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
-import android.widget.Toast;
+import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.ICallBack;
-import com.example.avil.currencyconverter.view.MainActivity;
 import com.example.avil.currencyconverter.view.MainView;
 
-import curseValue.CurseParser;
-import dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.curse_value.CurseParser;
+import com.example.avil.currencyconverter.dictionary.CurrencyDict;
 
 
 public class MainPresenter implements ICallBack, IMainPresenter {
@@ -71,17 +74,42 @@ public class MainPresenter implements ICallBack, IMainPresenter {
             String name = CurrencyDict.OTHER[i];
             put(name, curseParser.getVal(name));
         }
+    }
 
-        //Toast.makeText(mainView, "The course was updated", Toast.LENGTH_SHORT).show();
+
+    public void makeSpinner(final MainView activity, Spinner spinner, int pos) {
+
+        final Context context = (Context) activity;
+
+        // адаптер
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, CurrencyDict.ALL);
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        // spinner.setPrompt("Валюта"); // Заголовок
+        spinner.setSelection(pos); // Выделение элемента
+
+        // обработчик нажатия
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                activity.updateMoneyOutText();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
     private void put(String k, float v) {
         converter.put(k, v);
 
-        converter.saveRow((Activity) mainView, k, v  );
+        converter.saveRow((Activity) mainView, k, v);
     }
-
 
 
 }

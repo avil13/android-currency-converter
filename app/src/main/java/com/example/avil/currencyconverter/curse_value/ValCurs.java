@@ -1,10 +1,9 @@
-package curseValue;
+package com.example.avil.currencyconverter.curse_value;
 
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
