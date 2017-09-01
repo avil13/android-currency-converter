@@ -5,10 +5,9 @@ import android.app.Activity;
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.ICallBack;
-import com.example.avil.currencyconverter.view.MainView;
-
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.view.MainView;
 
 
 public class MainPresenter implements ICallBack, IMainPresenter {
@@ -71,7 +70,7 @@ public class MainPresenter implements ICallBack, IMainPresenter {
     }
 
 
-    public String[] getSpinnerData(){
+    public String[] getSpinnerData() {
         return CurrencyDict.ALL;
     }
 

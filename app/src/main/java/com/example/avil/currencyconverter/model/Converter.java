@@ -3,9 +3,9 @@ package com.example.avil.currencyconverter.model;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
-import java.util.HashMap;
-
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+
+import java.util.HashMap;
 
 
 public class Converter implements IConverter {

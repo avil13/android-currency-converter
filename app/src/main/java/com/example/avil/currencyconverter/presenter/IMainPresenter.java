@@ -1,8 +1,5 @@
 package com.example.avil.currencyconverter.presenter;
 
-import android.widget.Spinner;
-
-import com.example.avil.currencyconverter.view.MainActivity;
 import com.example.avil.currencyconverter.view.MainView;
 
 /**

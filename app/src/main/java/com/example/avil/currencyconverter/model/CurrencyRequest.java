@@ -1,19 +1,18 @@
 package com.example.avil.currencyconverter.model;
 
 
+import com.example.avil.currencyconverter.model.curse_value.CurseParser;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 
 
 
 public class CurrencyRequest implements ICurrencyRequest {
 
     private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
-//    private static final String path = "http://10.42.75.90:8080/curs.xml";
 
     CurseParser curseParser;
 
