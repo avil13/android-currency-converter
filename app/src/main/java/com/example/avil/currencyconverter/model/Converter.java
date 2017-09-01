@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
-import com.example.avil.currencyconverter.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 
 
 public class Converter implements IConverter {

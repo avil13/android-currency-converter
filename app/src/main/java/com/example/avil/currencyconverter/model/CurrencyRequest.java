@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.example.avil.currencyconverter.curse_value.CurseParser;
+import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 
 
 

@@ -1,6 +1,6 @@
 package com.example.avil.currencyconverter;
 
-import com.example.avil.currencyconverter.curse_value.CurseParser;
+import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.Converter;
 
 import org.junit.Test;

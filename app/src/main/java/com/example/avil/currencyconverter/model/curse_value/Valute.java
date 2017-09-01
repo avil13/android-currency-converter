@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter.curse_value;
+package com.example.avil.currencyconverter.model.curse_value;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

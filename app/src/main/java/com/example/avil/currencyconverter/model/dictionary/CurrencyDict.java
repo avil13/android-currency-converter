@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter.dictionary;
+package com.example.avil.currencyconverter.model.dictionary;
 
 
 public class CurrencyDict {

@@ -16,7 +16,7 @@ public interface IMainPresenter {
 
     void updateCurce();
 
-    String[] spinnerData();
+    String[] getSpinnerData();
 
     // коллбек обновление данных о курсах
     void updateCurseData();

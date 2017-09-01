@@ -1,6 +1,5 @@
 package com.example.avil.currencyconverter.view;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.avil.currencyconverter.dictionary.CurrencyDict;
 import com.example.avil.currencyconverter.presenter.IMainPresenter;
 import com.example.avil.currencyconverter.presenter.MainPresenter;
 import com.example.avil.currencyconverter.R;
@@ -81,12 +79,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private void makeSpinner(Spinner spinner, int pos) {
         // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, presenter.spinnerData());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, presenter.getSpinnerData());
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
-        // spinner.setPrompt("Валюта"); // Заголовок
         spinner.setSelection(pos); // Выделение элемента
 
         // обработчик нажатия
