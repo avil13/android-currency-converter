@@ -1,6 +1,7 @@
 package com.example.avil.currencyconverter;
 
 import com.example.avil.currencyconverter.curse_value.CurseParser;
+import com.example.avil.currencyconverter.model.Converter;
 
 import org.junit.Test;
 
@@ -45,5 +46,22 @@ public class ExampleUnitTest {
 
         assertEquals(eur, 70, 0.001);
         assertEquals(usd, 58, 0.001);
+    }
+
+
+    @Test
+    public void addition_currencyCalculate() throws  Exception {
+        Converter converter = new Converter();
+
+        // выставляем текущие значения курса
+        converter.put("EUR", 70);
+        converter.put("USD", 60);
+
+         // проверяем рассчеты
+        float eur_rub = converter.convert("EUR", "RUB", 1);
+        assertEquals(eur_rub, 70, 0.001);
+
+        float usd_rub = converter.convert("USD", "RUB", 1);
+        assertEquals(usd_rub, 60, 0.001);
     }
 }
