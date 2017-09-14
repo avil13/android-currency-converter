@@ -8,11 +8,11 @@
 
     <EditText
         android:id="@+id/money_in"
-        android:layout_width="179dp"
-        android:layout_height="47dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/money_in_width"
+        android:layout_height="@dimen/money_in_height"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
         android:ems="10"
         android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,10 +21,10 @@
     <TextView
         android:id="@+id/money_out"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/money_out_height"
+        android:layout_marginEnd="@dimen/margin"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
         android:text="@string/currency_money"
         app:layout_constraintEnd_toEndOf="@+id/money_in"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,26 +33,26 @@
 
     <Spinner
         android:id="@+id/spinner_1"
-        android:layout_width="159dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/spinner_width"
+        android:layout_height="@dimen/spinner_height"
+        android:layout_marginTop="@dimen/margin"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/money_in"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin"
         app:layout_constraintHorizontal_bias="0.636" />
 
     <Spinner
         android:id="@+id/spinner_2"
-        android:layout_width="159dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/spinner_width"
+        android:layout_height="@dimen/spinner_height"
+        android:layout_marginTop="@dimen/margin"
         app:layout_constraintTop_toBottomOf="@+id/spinner_1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/margin"
         app:layout_constraintStart_toEndOf="@+id/money_in"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin"
         app:layout_constraintHorizontal_bias="0.636" />
 
 
