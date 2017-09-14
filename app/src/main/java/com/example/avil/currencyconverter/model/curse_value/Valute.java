@@ -11,4 +11,7 @@ class Valute {
 
     @Element(name = "CharCode")
     public String code;
+
+    @Element(name = "Nominal")
+    public String nominal;
 }
