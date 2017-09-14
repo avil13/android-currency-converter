@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.widget.Toast;
 
+import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 
@@ -50,7 +51,7 @@ public class CurrencyRequest implements ICurrencyRequest {
                     InputStream inputStream = urlConnection.getInputStream();
 
 
-                    Toast.makeText(context, "New curce is loaded", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.currency_loaded, Toast.LENGTH_LONG).show();
 
                     CurseParser curseParser = new CurseParser(inputStream);
 
@@ -61,7 +62,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(context, "Can't load new curce", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.currency_cant_load, Toast.LENGTH_LONG).show();
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
