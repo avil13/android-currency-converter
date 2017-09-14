@@ -5,20 +5,18 @@ import android.util.Log;
 
 import org.simpleframework.xml.core.Persister;
 
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.InputStream;
 
 
 public class CurseParser {
 
     public ValCurs curs;
 
-    public CurseParser(String xml) {
-        Reader reader = new StringReader(xml);
+    public CurseParser(InputStream inputStream) {
         Persister serializer = new Persister();
 
         try {
-            curs = serializer.read(ValCurs.class, reader, false);
+            curs = serializer.read(ValCurs.class, inputStream, false);
         } catch (Exception e) {
             Log.e("SimpleXML::", e.getMessage());
         }

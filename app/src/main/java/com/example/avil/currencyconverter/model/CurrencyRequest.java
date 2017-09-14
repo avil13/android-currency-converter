@@ -4,7 +4,6 @@ package com.example.avil.currencyconverter.model;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -23,7 +22,6 @@ public class CurrencyRequest implements ICurrencyRequest {
         new Thread() {
             @Override
             public void run() {
-                StringBuffer stringBuffer = new StringBuffer();
 
                 HttpURLConnection urlConnection = null;
                 URL url;
@@ -35,16 +33,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     InputStream in = urlConnection.getInputStream();
 
-                    InputStreamReader isw = new InputStreamReader(in);
-
-                    int data = isw.read();
-
-                    while (data != -1) {
-                        stringBuffer.append((char) data);
-                        data = isw.read();
-                    }
-
-                    parseData(stringBuffer.toString());
+                    parseData(in);
 
                     callBack.updateCurseData();
 
@@ -61,8 +50,8 @@ public class CurrencyRequest implements ICurrencyRequest {
     }
 
 
-    private void parseData(String xml) {
-        curseParser = new CurseParser(xml);
+    private void parseData(InputStream inputStream) {
+        curseParser = new CurseParser(inputStream);
     }
 
     @Override
