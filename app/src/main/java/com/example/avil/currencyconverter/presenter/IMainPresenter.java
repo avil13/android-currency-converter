@@ -1,5 +1,7 @@
 package com.example.avil.currencyconverter.presenter;
 
+import android.content.Context;
+
 import com.example.avil.currencyconverter.view.MainView;
 
 /**
@@ -11,10 +13,9 @@ public interface IMainPresenter {
 
     String convert(String from, String to, String v);
 
-    void updateCurce();
+    void updateCurce(Context context);
 
     String[] getSpinnerData();
 
-    // коллбек обновление данных о курсах
-    void updateCurseData();
+    void onDestroy();
 }

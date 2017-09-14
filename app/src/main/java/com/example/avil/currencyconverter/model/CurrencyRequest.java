@@ -1,25 +1,41 @@
 package com.example.avil.currencyconverter.model;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.widget.Toast;
+
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
+import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-
 public class CurrencyRequest implements ICurrencyRequest {
 
     private static final String path = "http://www.cbr.ru/scripts/XML_daily.asp";
 
-    CurseParser curseParser;
+    private HandlerThread handlerThread;
+
+    private Context context;
+
+    private Converter converter;
 
 
-    @Override
-    public void get(final ICallBack callBack) {
+    public CurrencyRequest(final Context context, Converter converter) {
+        this.context = context;
+        this.converter = converter;
 
-        new Thread() {
+        handlerThread = new HandlerThread("currency_request");
+        handlerThread.start();
+
+        Handler handler = new Handler(handlerThread.getLooper());
+
+        handler.post(new Runnable() {
             @Override
             public void run() {
 
@@ -31,31 +47,39 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     urlConnection = (HttpURLConnection) url.openConnection();
 
-                    InputStream in = urlConnection.getInputStream();
+                    InputStream inputStream = urlConnection.getInputStream();
 
-                    parseData(in);
 
-                    callBack.updateCurseData();
+                    Toast.makeText(context, "New curce is loaded", Toast.LENGTH_LONG).show();
+
+                    CurseParser curseParser = new CurseParser(inputStream);
+
+                    for (int i = 0; i < CurrencyDict.OTHER.length; i++) {
+                        String name = CurrencyDict.OTHER[i];
+                        put(name, curseParser.getVal(name));
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Toast.makeText(context, "Can't load new curce", Toast.LENGTH_LONG).show();
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
                     }
                 }
-
             }
-        }.start();
+        });
     }
 
 
-    private void parseData(InputStream inputStream) {
-        curseParser = new CurseParser(inputStream);
+    private void put(String k, float v) {
+        converter.put(k, v);
+        converter.saveRow((Activity) context, k, v);
     }
 
-    @Override
-    public CurseParser getCurse() {
-        return curseParser;
+
+    public void onDestroy() {
+        handlerThread.quit();
     }
+
 }

@@ -7,7 +7,5 @@ import com.example.avil.currencyconverter.model.curse_value.CurseParser;
  */
 
 interface ICurrencyRequest {
-    void get(ICallBack callBack);
-
-    CurseParser getCurse();
+    void onDestroy();
 }

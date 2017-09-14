@@ -1,5 +1,6 @@
 package com.example.avil.currencyconverter.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.updateCurce();
+        presenter.updateCurce((Context) this);
     }
 
 
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         moneyOut.setText(res);
     }
 
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
 
     private void makeSpinner(Spinner spinner, int pos) {
         // адаптер

@@ -1,28 +1,26 @@
 package com.example.avil.currencyconverter.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
-import com.example.avil.currencyconverter.model.ICallBack;
-import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 import com.example.avil.currencyconverter.view.MainView;
 
 
-public class MainPresenter implements ICallBack, IMainPresenter {
+public class MainPresenter implements IMainPresenter {
 
     private MainView mainView;
+    private CurrencyRequest currencyRequest;
 
     private static MainPresenter instance = new MainPresenter();
 
     private Converter converter;
-    private static CurrencyRequest currencyRequest;
+
 
     private MainPresenter() {
         converter = new Converter();
-
-        currencyRequest = new CurrencyRequest();
     }
 
 
@@ -51,35 +49,18 @@ public class MainPresenter implements ICallBack, IMainPresenter {
         return String.format("%4.2f", res);
     }
 
-
-    @Override
-    public void updateCurce() {
-        currencyRequest.get(instance);
+    public void onDestroy(){
+        currencyRequest.onDestroy();
     }
 
 
-    // коллбек обновление данных о курсах
-    @Override
-    public void updateCurseData() {
-        CurseParser curseParser = currencyRequest.getCurse();
-
-        for (int i = 0; i < CurrencyDict.OTHER.length; i++) {
-            String name = CurrencyDict.OTHER[i];
-            put(name, curseParser.getVal(name));
-        }
+    public void updateCurce(Context context) {
+        currencyRequest = new CurrencyRequest(context, converter);
     }
 
 
     public String[] getSpinnerData() {
         return CurrencyDict.ALL;
     }
-
-
-    private void put(String k, float v) {
-        converter.put(k, v);
-
-        converter.saveRow((Activity) mainView, k, v);
-    }
-
 
 }
