@@ -1,14 +1,18 @@
 package com.example.avil.currencyconverter.model;
 
 
-import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
+import com.example.avil.currencyconverter.model.curse_value.Valute;
+import com.example.avil.currencyconverter.model.dictionary.CurrencyDB;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 
 import java.io.InputStream;
@@ -26,10 +30,15 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private Converter converter;
 
+    private CurrencyDB currencyDB;
 
-    public CurrencyRequest(final Context context, Converter converter) {
+    private SQLiteDatabase db;
+
+
+    public CurrencyRequest(final Context context, final Converter converter) {
         this.context = context;
         this.converter = converter;
+
 
         handlerThread = new HandlerThread("currency_request");
         handlerThread.start();
@@ -55,10 +64,26 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     CurseParser curseParser = new CurseParser(inputStream);
 
-                    for (int i = 0; i < CurrencyDict.OTHER.length; i++) {
-                        String name = CurrencyDict.OTHER[i];
-                        put(name, curseParser.getVal(name));
+                    // ====
+                    // Сохраняем в бд все валюты
+                    currencyDB = new CurrencyDB(context);
+
+                    for (Valute v : curseParser.getValute()) {
+                        if (v.code.equals(CurrencyDict.MAIN)) {
+                            continue;
+                        }
+
+                        float val = (Float.valueOf(v.value.replace(",", ".")) / v.nominal);
+
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(CurrencyDB.FeedEntry.KEY_NAME, v.code);
+                        contentValues.put(CurrencyDB.FeedEntry.KEY_VALUE, val);
+
+                        currencyDB.createOrUpdae(v.code, contentValues);
+                        converter.put(v.code, val);
                     }
+
+                    CurrencyDict.setOther(currencyDB.getCurrencys());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -70,12 +95,6 @@ public class CurrencyRequest implements ICurrencyRequest {
                 }
             }
         });
-    }
-
-
-    private void put(String k, float v) {
-        converter.put(k, v);
-        converter.saveRow((Activity) context, k, v);
     }
 
 

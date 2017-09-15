@@ -13,12 +13,12 @@ public class CurrencyDict {
     public static String[] ALL = {"RUB", "EUR", "USD"};
 
 
-    public void setOther(String[] newOther) {
+    public  static void setOther(String[] newOther) {
         OTHER = newOther;
         ALL = getAll();
     }
 
-    private String[] getAll() {
+    private static String[] getAll() {
         ArrayList<String> list = new ArrayList<>(1 + OTHER.length);
 
         list.add(MAIN);

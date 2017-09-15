@@ -49,7 +49,7 @@ public class MainPresenter implements IMainPresenter {
         return String.format("%4.2f", res);
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         currencyRequest.onDestroy();
     }
 

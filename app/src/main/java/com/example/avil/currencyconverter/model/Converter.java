@@ -1,8 +1,8 @@
 package com.example.avil.currencyconverter.model;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 
+import com.example.avil.currencyconverter.model.dictionary.CurrencyDB;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
 
 import java.util.HashMap;
@@ -26,19 +26,14 @@ public class Converter implements IConverter {
     }
 
     @Override
-    public void saveRow(Activity activity, String k, float v) {
-        SharedPreferences.Editor editor = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE).edit();
-        editor.putFloat(k, v);
-        editor.commit();
-    }
-
-    @Override
     public void loadLocalData(Activity activity) {
-        SharedPreferences sp = activity.getSharedPreferences("com.avil.cache", activity.MODE_PRIVATE);
+        CurrencyDB currencyDB = new CurrencyDB(activity);
+        CurrencyDict.setOther(currencyDB.getCurrencys());
 
-        for (int i = 0; i < CurrencyDict.ALL.length; i++) {
-            String name = CurrencyDict.ALL[i];
-            put(name, sp.getFloat(name, 1f));
+        put(CurrencyDict.MAIN, 1f);
+
+        for (ValuteGetted v : currencyDB.getAll()){
+            put(v.code, v.value);
         }
     }
 

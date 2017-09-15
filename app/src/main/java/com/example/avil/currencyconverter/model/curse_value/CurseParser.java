@@ -6,6 +6,7 @@ import android.util.Log;
 import org.simpleframework.xml.core.Persister;
 
 import java.io.InputStream;
+import java.util.List;
 
 
 public class CurseParser {
@@ -25,6 +26,10 @@ public class CurseParser {
 
     public float getVal(String code) {
         return Float.parseFloat(curs.getValute(code).value.replace(",", "."));
+    }
+
+    public List<Valute> getValute(){
+        return curs.getValute();
     }
 
 }

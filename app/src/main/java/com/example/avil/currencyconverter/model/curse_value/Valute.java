@@ -5,7 +5,7 @@ import org.simpleframework.xml.Root;
 
 
 @Root(name = "Valute")
-class Valute {
+public class Valute {
     @Element(name = "Value")
     public String value;
 
@@ -13,5 +13,5 @@ class Valute {
     public String code;
 
     @Element(name = "Nominal")
-    public String nominal;
+    public float nominal;
 }

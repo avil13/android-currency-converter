@@ -36,14 +36,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         presenter.setView(this);
 
-
-        spinner1 = (Spinner) findViewById(R.id.spinner_1);
-        makeSpinner(spinner1, 0);
-
-        spinner2 = (Spinner) findViewById(R.id.spinner_2);
-        makeSpinner(spinner2, 1);
-
-
         moneyOut = (TextView) findViewById(R.id.money_out);
 
         moneyIn = (EditText) findViewById(R.id.money_in);
@@ -57,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 return false;
             }
         });
+
+        spinner1 = (Spinner) findViewById(R.id.spinner_1);
+        spinner2 = (Spinner) findViewById(R.id.spinner_2);
+
+        initSpinners();
     }
 
 
@@ -82,6 +79,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
         presenter.onDestroy();
         super.onDestroy();
     }
+
+
+    public void initSpinners(){
+        makeSpinner(spinner1, 0);
+        makeSpinner(spinner2, 1);
+    }
+
 
     private void makeSpinner(Spinner spinner, int pos) {
         // адаптер
