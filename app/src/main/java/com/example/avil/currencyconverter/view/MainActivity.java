@@ -3,6 +3,7 @@ package com.example.avil.currencyconverter.view;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.updateCurce((Context) this);
+        presenter.updateCurce();
     }
 
 
@@ -88,12 +89,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 
     private void makeSpinner(Spinner spinner, int pos) {
+
+        String[] data = presenter.getSpinnerData();
         // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, presenter.getSpinnerData());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, data);
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
+
+        if(data.length <= pos){
+            pos = 0;
+        }
         spinner.setSelection(pos); // Выделение элемента
 
         // обработчик нажатия
@@ -109,4 +116,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
             }
         });
     }
+
+
+
+//    public void debugMsg(String msg) {
+//        final String str = msg;
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                initSpinners();
+//            }
+//        });
+//    }
 }

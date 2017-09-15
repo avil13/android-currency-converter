@@ -13,10 +13,14 @@ import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDB;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.view.MainActivity;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class CurrencyRequest implements ICurrencyRequest {
@@ -25,7 +29,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private HandlerThread handlerThread;
 
-    private Context context;
+    private MainActivity mainActivity;
 
     private Converter converter;
 
@@ -34,8 +38,8 @@ public class CurrencyRequest implements ICurrencyRequest {
     private SQLiteDatabase db;
 
 
-    public CurrencyRequest(final Context context, final Converter converter) {
-        this.context = context;
+    public CurrencyRequest(final MainActivity mainActivity, final Converter converter) {
+        this.mainActivity = mainActivity;
         this.converter = converter;
 
 
@@ -59,19 +63,23 @@ public class CurrencyRequest implements ICurrencyRequest {
                     InputStream inputStream = urlConnection.getInputStream();
 
 
-                    Toast.makeText(context, R.string.currency_loaded, Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity, R.string.currency_loaded, Toast.LENGTH_LONG).show();
 
                     CurseParser curseParser = new CurseParser(inputStream);
 
                     // ====
                     // Сохраняем в бд все валюты
-                    currencyDB = new CurrencyDB(context);
+                    currencyDB = new CurrencyDB(mainActivity);
 
-                    for (Valute v : curseParser.getValute()) {
-                        if (v.code.equals(CurrencyDict.MAIN)) {
-                            continue;
+                    List<Valute> list = curseParser.getValute();
+                    Collections.sort(list, new Comparator<Valute>() {
+                        @Override
+                        public int compare(Valute v1, Valute v2) {
+                            return v1.toString().compareTo(v2.toString());
                         }
+                    });
 
+                    for (Valute v : list) {
                         float val = (Float.valueOf(v.value.replace(",", ".")) / v.nominal);
 
                         ContentValues contentValues = new ContentValues();
@@ -83,9 +91,17 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     CurrencyDict.setOther(currencyDB.getCurrencys());
 
+
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mainActivity.initSpinners();
+                        }
+                    });
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(context, R.string.currency_cant_load, Toast.LENGTH_LONG).show();
+                    Toast.makeText(mainActivity, R.string.currency_cant_load, Toast.LENGTH_LONG).show();
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
@@ -94,7 +110,6 @@ public class CurrencyRequest implements ICurrencyRequest {
             }
         });
     }
-
 
     public void onDestroy() {
         handlerThread.quit();

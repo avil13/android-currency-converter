@@ -10,6 +10,8 @@ import android.provider.BaseColumns;
 import com.example.avil.currencyconverter.model.ValuteGetted;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -91,7 +93,7 @@ public class CurrencyDB extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList();
         SQLiteDatabase db = getWritableDatabase();
 
-        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME}, null, null, null, null, null);
+        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME}, null, null, null, null, FeedEntry.KEY_NAME);
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -113,7 +115,7 @@ public class CurrencyDB extends SQLiteOpenHelper {
      * @param key
      * @return
      */
-    public Float getVal(String key) {
+    public float getVal(String key) {
         SQLiteDatabase db = getWritableDatabase();
 
         Cursor cursor = db.query(
@@ -147,7 +149,7 @@ public class CurrencyDB extends SQLiteOpenHelper {
         ArrayList<ValuteGetted> list = new ArrayList();
         SQLiteDatabase db = getWritableDatabase();
 
-        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME, FeedEntry.KEY_VALUE}, null, null, null, null, null);
+        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME, FeedEntry.KEY_VALUE}, null, null, null, null, FeedEntry.KEY_NAME);
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {

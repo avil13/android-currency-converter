@@ -6,6 +6,7 @@ import android.content.Context;
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.view.MainActivity;
 import com.example.avil.currencyconverter.view.MainView;
 
 
@@ -53,8 +54,8 @@ public class MainPresenter implements IMainPresenter {
     }
 
 
-    public void updateCurce(Context context) {
-        currencyRequest = new CurrencyRequest(context, converter);
+    public void updateCurce() {
+        currencyRequest = new CurrencyRequest((MainActivity) mainView, converter);
     }
 
 

@@ -12,7 +12,11 @@ public class Converter implements IConverter {
 
     public Converter(Context context) {
         currencyDB = new CurrencyDB(context);
-        CurrencyDict.setOther(currencyDB.getCurrencys());
+        String[] list = currencyDB.getCurrencys();
+
+        if (list.length > 1) {
+            CurrencyDict.setOther(list);
+        }
     }
 
 

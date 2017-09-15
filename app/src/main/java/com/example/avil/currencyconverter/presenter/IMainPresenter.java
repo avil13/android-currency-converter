@@ -13,7 +13,7 @@ public interface IMainPresenter {
 
     String convert(String from, String to, String v);
 
-    void updateCurce(Context context);
+    void updateCurce();
 
     String[] getSpinnerData();
 
