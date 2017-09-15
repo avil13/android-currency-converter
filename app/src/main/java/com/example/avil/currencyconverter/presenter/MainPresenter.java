@@ -20,7 +20,6 @@ public class MainPresenter implements IMainPresenter {
 
 
     private MainPresenter() {
-        converter = new Converter();
     }
 
 
@@ -33,7 +32,7 @@ public class MainPresenter implements IMainPresenter {
     public void setView(MainView mainView) {
         this.mainView = mainView;
 
-        converter.loadLocalData((Activity) mainView);
+        converter = new Converter((Context) mainView);
     }
 
 

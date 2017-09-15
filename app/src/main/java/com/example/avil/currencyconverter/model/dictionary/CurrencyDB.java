@@ -12,9 +12,6 @@ import com.example.avil.currencyconverter.model.ValuteGetted;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by avil on 15.09.17.
- */
 
 public class CurrencyDB extends SQLiteOpenHelper {
 

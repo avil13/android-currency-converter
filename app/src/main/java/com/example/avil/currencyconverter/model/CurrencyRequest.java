@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.avil.currencyconverter.R;
@@ -80,7 +79,6 @@ public class CurrencyRequest implements ICurrencyRequest {
                         contentValues.put(CurrencyDB.FeedEntry.KEY_VALUE, val);
 
                         currencyDB.createOrUpdae(v.code, contentValues);
-                        converter.put(v.code, val);
                     }
 
                     CurrencyDict.setOther(currencyDB.getCurrencys());
