@@ -1,11 +1,10 @@
 package com.example.avil.currencyconverter.presenter;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
-import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.model.database.CurrencyDB;
 import com.example.avil.currencyconverter.view.MainActivity;
 import com.example.avil.currencyconverter.view.MainView;
 
@@ -18,6 +17,7 @@ public class MainPresenter implements IMainPresenter {
     private static MainPresenter instance = new MainPresenter();
 
     private Converter converter;
+    private CurrencyDB currencyDB;
 
 
     private MainPresenter() {
@@ -34,19 +34,23 @@ public class MainPresenter implements IMainPresenter {
         this.mainView = mainView;
 
         converter = new Converter((Context) mainView);
+        currencyDB = new CurrencyDB((Context) mainView);
     }
 
 
     @Override
-    public String convert(String from, String to, String v) {
+    public void convert(String from, String to, String v) {
+        String value;
+
         if ("".equals(v)) {
-            return "";
+            value = "";
+        } else {
+            float val = Float.parseFloat(v);
+            float res = converter.convert(from, to, val);
+            value = String.format("%4.2f", res);
         }
 
-        float val = Float.parseFloat(v);
-        float res = converter.convert(from, to, val);
-
-        return String.format("%4.2f", res);
+        mainView.setValue(value);
     }
 
     public void onDestroy() {
@@ -55,12 +59,13 @@ public class MainPresenter implements IMainPresenter {
 
 
     public void updateCurce() {
-        currencyRequest = new CurrencyRequest((MainActivity) mainView, converter);
+        currencyRequest = new CurrencyRequest((MainActivity) mainView);
     }
 
 
     public String[] getSpinnerData() {
-        return CurrencyDict.ALL;
+        return currencyDB.getCurrencys();
     }
+
 
 }

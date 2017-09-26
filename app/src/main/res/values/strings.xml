@@ -3,4 +3,5 @@
     <string name="currency_money">Converted value</string>
     <string name="currency_loaded">New curce is loaded</string>
     <string name="currency_cant_load">Can\'t load new curce</string>
+    <string name="update_rate">Update the exchange rate</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter.model.dictionary;
+package com.example.avil.currencyconverter.model.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,24 +7,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import com.example.avil.currencyconverter.model.ValuteGetted;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 
 public class CurrencyDB extends SQLiteOpenHelper {
 
     public static abstract class FeedEntry implements BaseColumns {
-        public static final int DATABASE_VERSION = 1;
+        public static final int DATABASE_VERSION = 2;
         public static final String DATABASE_NAME = "currency_db";
         public static final String TABLE_NAME = "currencys";
 
         public static final String KEY_ID = "_id";
         public static final String KEY_NAME = "name";
         public static final String KEY_VALUE = "value";
+        public static final String KEY_ORDER = "order_key";
     }
 
 
@@ -38,7 +34,8 @@ public class CurrencyDB extends SQLiteOpenHelper {
                 " (" +
                 FeedEntry.KEY_ID + " INTEGER PRIMARY KEY, " +
                 FeedEntry.KEY_NAME + " TEXT, " +
-                FeedEntry.KEY_VALUE + " REAL " +
+                FeedEntry.KEY_VALUE + " REAL, " +
+                FeedEntry.KEY_ORDER + " INTEGER DEFAULT 2 " +
                 ")"
         );
     }
@@ -93,7 +90,15 @@ public class CurrencyDB extends SQLiteOpenHelper {
         ArrayList<String> list = new ArrayList();
         SQLiteDatabase db = getWritableDatabase();
 
-        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME}, null, null, null, null, FeedEntry.KEY_NAME);
+        Cursor cursor = db.query(
+                FeedEntry.TABLE_NAME,
+                new String[]{FeedEntry.KEY_NAME},
+                null,
+                null,
+                null,
+                null,
+                FeedEntry.KEY_ORDER + " ASC, " + FeedEntry.KEY_NAME + " ASC"
+        );
 
         if (cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
@@ -137,36 +142,5 @@ public class CurrencyDB extends SQLiteOpenHelper {
         db.close();
 
         return res;
-    }
-
-    /**
-     *  Получение всех значений из БД
-     *
-     * @return
-     */
-    public List<ValuteGetted> getAll(){
-
-        ArrayList<ValuteGetted> list = new ArrayList();
-        SQLiteDatabase db = getWritableDatabase();
-
-        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME, FeedEntry.KEY_VALUE}, null, null, null, null, FeedEntry.KEY_NAME);
-
-        if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-                list.add(
-                        new ValuteGetted(
-                                cursor.getString(cursor.getColumnIndex(FeedEntry.KEY_NAME)),
-                                Float.valueOf(
-                                    cursor.getString(cursor.getColumnIndex(FeedEntry.KEY_VALUE))
-                                )
-                        )
-                );
-                cursor.moveToNext();
-            }
-        }
-        cursor.close();
-        db.close();
-
-        return list;
     }
 }

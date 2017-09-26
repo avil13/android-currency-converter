@@ -11,7 +11,7 @@ import com.example.avil.currencyconverter.view.MainView;
 public interface IMainPresenter {
     void setView(MainView mainView);
 
-    String convert(String from, String to, String v);
+    void convert(String from, String to, String v);
 
     void updateCurce();
 

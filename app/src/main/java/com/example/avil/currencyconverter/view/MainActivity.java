@@ -64,16 +64,26 @@ public class MainActivity extends AppCompatActivity implements MainView {
         presenter.updateCurce();
     }
 
-
+    /**
+     * Метод для пересчета результата
+     */
     public void updateMoneyOutText() {
-        String res = presenter.convert(
+        presenter.convert(
                 spinner1.getSelectedItem().toString(),
                 spinner2.getSelectedItem().toString(),
                 moneyIn.getText().toString()
         );
-
-        moneyOut.setText(res);
     }
+
+    /**
+     *  Отображение результата пересчета курса
+     *
+     * @param val
+     */
+    public void setValue(String val) {
+        moneyOut.setText(val);
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -116,16 +126,4 @@ public class MainActivity extends AppCompatActivity implements MainView {
             }
         });
     }
-
-
-
-//    public void debugMsg(String msg) {
-//        final String str = msg;
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                initSpinners();
-//            }
-//        });
-//    }
 }

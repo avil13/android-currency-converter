@@ -2,24 +2,20 @@ package com.example.avil.currencyconverter.model;
 
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.widget.Toast;
 
 import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
-import com.example.avil.currencyconverter.model.dictionary.CurrencyDB;
-import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.model.database.CurrencyDB;
+import com.example.avil.currencyconverter.utils.LogMessage;
 import com.example.avil.currencyconverter.view.MainActivity;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -31,17 +27,17 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private MainActivity mainActivity;
 
-    private Converter converter;
-
     private CurrencyDB currencyDB;
 
     private SQLiteDatabase db;
 
 
-    public CurrencyRequest(final MainActivity mainActivity, final Converter converter) {
+    public CurrencyRequest(final MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        this.converter = converter;
 
+        currencyDB = new CurrencyDB(mainActivity);
+
+        LogMessage.toast(R.string.update_rate);
 
         handlerThread = new HandlerThread("currency_request");
         handlerThread.start();
@@ -62,35 +58,24 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     InputStream inputStream = urlConnection.getInputStream();
 
-
-                    Toast.makeText(mainActivity, R.string.currency_loaded, Toast.LENGTH_LONG).show();
+                    LogMessage.toast(R.string.currency_loaded);
 
                     CurseParser curseParser = new CurseParser(inputStream);
 
                     // ====
                     // Сохраняем в бд все валюты
-                    currencyDB = new CurrencyDB(mainActivity);
-
                     List<Valute> list = curseParser.getValute();
-                    Collections.sort(list, new Comparator<Valute>() {
-                        @Override
-                        public int compare(Valute v1, Valute v2) {
-                            return v1.toString().compareTo(v2.toString());
-                        }
-                    });
+
+                    // первый в списке
+                    put("RUB", "1", 1, 0);
 
                     for (Valute v : list) {
-                        float val = (Float.valueOf(v.value.replace(",", ".")) / v.nominal);
-
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(CurrencyDB.FeedEntry.KEY_NAME, v.code);
-                        contentValues.put(CurrencyDB.FeedEntry.KEY_VALUE, val);
-
-                        currencyDB.createOrUpdae(v.code, contentValues);
+                        if (v.code.equals("EUR") || v.code.equals("USD")) {
+                            put(v.code, v.value, v.nominal, 1);
+                        } else {
+                            put(v.code, v.value, v.nominal, 2);
+                        }
                     }
-
-                    CurrencyDict.setOther(currencyDB.getCurrencys());
-
 
                     mainActivity.runOnUiThread(new Runnable() {
                         @Override
@@ -101,7 +86,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(mainActivity, R.string.currency_cant_load, Toast.LENGTH_LONG).show();
+                    LogMessage.toast(R.string.currency_cant_load);
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();
@@ -109,6 +94,17 @@ public class CurrencyRequest implements ICurrencyRequest {
                 }
             }
         });
+    }
+
+    private void put(String code, String value, float nominal, float order) {
+        float val = (Float.valueOf(value.replace(",", ".")) / nominal);
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CurrencyDB.FeedEntry.KEY_NAME, code);
+        contentValues.put(CurrencyDB.FeedEntry.KEY_VALUE, val);
+        contentValues.put(CurrencyDB.FeedEntry.KEY_ORDER, order);
+
+        currencyDB.createOrUpdae(code, contentValues);
     }
 
     public void onDestroy() {

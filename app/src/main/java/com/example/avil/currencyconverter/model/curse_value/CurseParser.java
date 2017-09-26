@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CurseParser {
 
-    public ValCurs curs;
+    private ValCurs curs;
 
     public CurseParser(InputStream inputStream) {
         Persister serializer = new Persister();

@@ -2,8 +2,7 @@ package com.example.avil.currencyconverter.model;
 
 import android.content.Context;
 
-import com.example.avil.currencyconverter.model.dictionary.CurrencyDB;
-import com.example.avil.currencyconverter.model.dictionary.CurrencyDict;
+import com.example.avil.currencyconverter.model.database.CurrencyDB;
 
 
 public class Converter implements IConverter {
@@ -12,11 +11,6 @@ public class Converter implements IConverter {
 
     public Converter(Context context) {
         currencyDB = new CurrencyDB(context);
-        String[] list = currencyDB.getCurrencys();
-
-        if (list.length > 1) {
-            CurrencyDict.setOther(list);
-        }
     }
 
 
