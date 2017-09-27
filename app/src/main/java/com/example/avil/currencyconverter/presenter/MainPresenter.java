@@ -5,7 +5,6 @@ import android.content.Context;
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.database.CurrencyDB;
-import com.example.avil.currencyconverter.view.MainActivity;
 import com.example.avil.currencyconverter.view.MainView;
 
 
@@ -18,23 +17,25 @@ public class MainPresenter implements IMainPresenter {
 
     private Converter converter;
     private CurrencyDB currencyDB;
-
+    private Context context;
 
     private MainPresenter() {
     }
-
 
     public static MainPresenter getInstance() {
         return instance;
     }
 
-
     @Override
     public void setView(MainView mainView) {
         this.mainView = mainView;
 
-        converter = new Converter((Context) mainView);
-        currencyDB = new CurrencyDB((Context) mainView);
+        if (context == null) {
+            context = (Context) mainView;
+            converter = new Converter(context);
+            currencyDB = new CurrencyDB(context);
+            currencyRequest = new CurrencyRequest(this);
+        }
     }
 
 
@@ -57,15 +58,16 @@ public class MainPresenter implements IMainPresenter {
         currencyRequest.onDestroy();
     }
 
-
-    public void updateCurce() {
-        currencyRequest = new CurrencyRequest((MainActivity) mainView);
-    }
-
-
     public String[] getSpinnerData() {
         return currencyDB.getCurrencys();
     }
 
+    public void updateViewData() {
+        mainView.initSpinners();
+    }
+
+    public Context getContext() {
+        return (Context) mainView;
+    }
 
 }

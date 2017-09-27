@@ -1,6 +1,5 @@
 package com.example.avil.currencyconverter.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -59,13 +58,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 
     @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
+
+    @Override
     protected void onStart() {
         super.onStart();
-        presenter.updateCurce();
     }
 
     /**
-     * Метод для пересчета результата
+     * Метод для пересчета результата через презентер
      */
     public void updateMoneyOutText() {
         presenter.convert(
@@ -85,16 +90,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-    }
-
-
     public void initSpinners(){
-        makeSpinner(spinner1, 0);
-        makeSpinner(spinner2, 1);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                makeSpinner(spinner1, 0);
+                makeSpinner(spinner2, 1);
+            }
+        });
     }
 
 

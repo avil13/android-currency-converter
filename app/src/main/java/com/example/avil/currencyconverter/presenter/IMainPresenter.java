@@ -13,9 +13,11 @@ public interface IMainPresenter {
 
     void convert(String from, String to, String v);
 
-    void updateCurce();
-
     String[] getSpinnerData();
+
+    void updateViewData();
+
+    Context getContext();
 
     void onDestroy();
 }

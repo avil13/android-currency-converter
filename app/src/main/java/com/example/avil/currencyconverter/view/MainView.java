@@ -5,4 +5,6 @@ public interface MainView {
     void updateMoneyOutText();
 
     void setValue(String value);
+
+    void initSpinners();
 }

@@ -2,14 +2,17 @@ package com.example.avil.currencyconverter.model;
 
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Message;
 
 import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
 import com.example.avil.currencyconverter.model.database.CurrencyDB;
+import com.example.avil.currencyconverter.presenter.IMainPresenter;
 import com.example.avil.currencyconverter.utils.LogMessage;
 import com.example.avil.currencyconverter.view.MainActivity;
 
@@ -25,24 +28,19 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private HandlerThread handlerThread;
 
-    private MainActivity mainActivity;
-
     private CurrencyDB currencyDB;
 
-    private SQLiteDatabase db;
+    public CurrencyRequest(final IMainPresenter presenter) {
 
-
-    public CurrencyRequest(final MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
-
-        currencyDB = new CurrencyDB(mainActivity);
+        currencyDB = new CurrencyDB(presenter.getContext());
 
         LogMessage.toast(R.string.update_rate);
 
         handlerThread = new HandlerThread("currency_request");
         handlerThread.start();
 
-        Handler handler = new Handler(handlerThread.getLooper());
+
+        final Handler handler = new Handler(handlerThread.getLooper());
 
         handler.post(new Runnable() {
             @Override
@@ -77,12 +75,7 @@ public class CurrencyRequest implements ICurrencyRequest {
                         }
                     }
 
-                    mainActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mainActivity.initSpinners();
-                        }
-                    });
+                    presenter.updateViewData();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -94,6 +87,8 @@ public class CurrencyRequest implements ICurrencyRequest {
                 }
             }
         });
+
+
     }
 
     private void put(String code, String value, float nominal, float order) {
