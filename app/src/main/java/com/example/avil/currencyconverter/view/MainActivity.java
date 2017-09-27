@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     /**
-     *  Отображение результата пересчета курса
+     * Отображение результата пересчета курса
      *
      * @param val
      */
@@ -90,14 +90,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
 
-    public void initSpinners(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                makeSpinner(spinner1, 0);
-                makeSpinner(spinner2, 1);
-            }
-        });
+    public void initSpinners() {
+        makeSpinner(spinner1, 0);
+        makeSpinner(spinner2, 1);
     }
 
 
@@ -111,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         spinner.setAdapter(adapter);
 
-        if(data.length <= pos){
+        if (data.length <= pos) {
             pos = 0;
         }
         spinner.setSelection(pos); // Выделение элемента
