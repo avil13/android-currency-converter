@@ -63,6 +63,7 @@ public class MainPresenter implements IMainPresenter {
     }
 
     public void updateViewData() {
+        converter.resync();
         mainView.initSpinners();
     }
 

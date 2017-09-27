@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.example.avil.currencyconverter.model.ValuteGetted;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CurrencyDB extends SQLiteOpenHelper {
@@ -142,5 +145,35 @@ public class CurrencyDB extends SQLiteOpenHelper {
         db.close();
 
         return res;
+    }
+
+
+    /**
+     * Получение всех значений из БД
+     *
+     * @return
+     */
+    public List<ValuteGetted> getAll() {
+
+        ArrayList<ValuteGetted> list = new ArrayList();
+        SQLiteDatabase db = getWritableDatabase();
+
+        Cursor cursor = db.query(FeedEntry.TABLE_NAME, new String[]{FeedEntry.KEY_NAME, FeedEntry.KEY_VALUE}, null, null, null, null, FeedEntry.KEY_NAME);
+
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                list.add(
+                        new ValuteGetted(
+                                cursor.getString(cursor.getColumnIndex(FeedEntry.KEY_NAME)),
+                                cursor.getString(cursor.getColumnIndex(FeedEntry.KEY_VALUE))
+                        )
+                );
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        db.close();
+
+        return list;
     }
 }
