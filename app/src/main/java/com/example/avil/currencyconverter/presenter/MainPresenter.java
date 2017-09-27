@@ -18,7 +18,9 @@ public class MainPresenter implements IMainPresenter {
 
     private Converter converter;
     private CurrencyDB currencyDB;
-    private Context context;
+
+    private boolean updated = false;
+
 
     private MainPresenter() {
     }
@@ -31,12 +33,14 @@ public class MainPresenter implements IMainPresenter {
     public void setView(MainView mainView) {
         this.mainView = mainView;
 
-        if (context == null) {
-            context = (Context) mainView;
-            converter = new Converter(context);
-            currencyDB = new CurrencyDB(context);
-            currencyRequest = new CurrencyRequest(this);
+        if (updated == true) {
+            return;
         }
+
+        converter = new Converter(this.getContext());
+        currencyDB = new CurrencyDB(this.getContext());
+        currencyRequest = new CurrencyRequest(this);
+        updated = true;
     }
 
 
