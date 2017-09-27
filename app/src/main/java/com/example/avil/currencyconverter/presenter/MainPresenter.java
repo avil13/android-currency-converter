@@ -1,7 +1,7 @@
 package com.example.avil.currencyconverter.presenter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.avil.currencyconverter.model.Converter;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
@@ -64,7 +64,7 @@ public class MainPresenter implements IMainPresenter {
     }
 
     public void updateViewData() {
-        AppCompatActivity activity = (AppCompatActivity) mainView;
+        Activity activity = (Activity) mainView;
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
