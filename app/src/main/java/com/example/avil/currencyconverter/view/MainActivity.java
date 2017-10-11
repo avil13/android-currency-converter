@@ -2,6 +2,7 @@ package com.example.avil.currencyconverter.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private Spinner spinner1;
     private Spinner spinner2;
-
+    private Button update_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +34,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         moneyOut = (TextView) findViewById(R.id.money_out);
         moneyIn = (EditText) findViewById(R.id.money_in);
 
+        update_btn = (Button) findViewById(R.id.update_btn);
+
         presenter = MainPresenter.getInstance();
         presenter.setView(this);
-    }
-
-    public String getValue(String id){
-        switch (id) {
-            case "spinner1":
-                return spinner1.getSelectedItem().toString();
-
-            case "spinner2":
-                return spinner2.getSelectedItem().toString();
-
-            case "moneyIn":
-                return moneyIn.getText().toString();
-        }
-        return "";
     }
 
     @Override
@@ -64,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public Spinner getSpinner2() {
         return spinner2;
+    }
+
+    @Override
+    public Button getUpdateBtn() {
+        return update_btn;
     }
 
 

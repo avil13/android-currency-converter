@@ -35,8 +35,6 @@
         android:id="@+id/spinner_1"
         android:layout_width="@dimen/spinner_width"
         android:layout_height="@dimen/spinner_height"
-        android:layout_marginTop="@dimen/margin"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="@dimen/margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/money_in"
@@ -47,13 +45,28 @@
         android:id="@+id/spinner_2"
         android:layout_width="@dimen/spinner_width"
         android:layout_height="@dimen/spinner_height"
-        android:layout_marginTop="@dimen/margin"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_1"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/margin"
-        app:layout_constraintStart_toEndOf="@+id/money_in"
         android:layout_marginStart="@dimen/margin"
-        app:layout_constraintHorizontal_bias="0.636" />
+        android:layout_marginTop="@dimen/margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toEndOf="@+id/money_in"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_1" />
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:hapticFeedbackEnabled="false"
+        android:text="@string/update_curce"
+        android:textColor="@android:color/background_light"
+        android:background="#4385f4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

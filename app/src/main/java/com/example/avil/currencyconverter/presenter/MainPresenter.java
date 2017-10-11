@@ -16,7 +16,7 @@ import com.example.avil.currencyconverter.repos.RepoCurrency;
 import com.example.avil.currencyconverter.view.MainView;
 
 
-public class MainPresenter implements IMainPresenter, IRepoCallbackData  {
+public class MainPresenter implements IMainPresenter  {
 
     private static MainPresenter instance = new MainPresenter();
 
@@ -49,21 +49,24 @@ public class MainPresenter implements IMainPresenter, IRepoCallbackData  {
             return;
         }
 
-        repo.update(this);
+        update();
         updated = true;
     }
 
-    /**
-     * Колбек при обновлении данных
-     */
-    @Override
-    public void update() {
-        Activity activity = (Activity) mainView;
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                initActions();
+    public void update(){
+        repo.update(new IRepoCallbackData(){
+
+            public void onFinish() {
+                Activity activity = (Activity) mainView;
+                // Колбек при обновлении данных
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initActions();
+                    }
+                });
             }
+
         });
     }
 
@@ -80,9 +83,9 @@ public class MainPresenter implements IMainPresenter, IRepoCallbackData  {
      */
     @Override
     public void convert() {
-        String from = mainView.getValue("spinner1");
-        String to = mainView.getValue("spinner2");
-        String v = mainView.getValue("moneyIn");
+        String from = mainView.getSpinner1().getSelectedItem().toString();
+        String to = mainView.getSpinner2().getSelectedItem().toString();
+        String v = mainView.getMoneyIn().getText().toString();
         String value;
 
         if ("".equals(v)) {
@@ -107,6 +110,15 @@ public class MainPresenter implements IMainPresenter, IRepoCallbackData  {
                     convert();
                 }
                 return false;
+            }
+        });
+
+        mainView.getUpdateBtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getId() == R.id.update_btn) {
+                    update();
+                }
             }
         });
     }

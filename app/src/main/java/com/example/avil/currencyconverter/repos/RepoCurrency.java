@@ -73,7 +73,7 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
         }
 
         if(callback != null){
-            callback.update();
+            callback.onFinish();
             callback = null;
         }
     }
