@@ -2,8 +2,12 @@ package com.example.avil.currencyconverter.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -12,7 +16,7 @@ import com.example.avil.currencyconverter.presenter.IMainPresenter;
 import com.example.avil.currencyconverter.presenter.MainPresenter;
 
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends AppCompatActivity implements MainView, Animation.AnimationListener {
 
     private IMainPresenter presenter;
 
@@ -21,7 +25,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private Spinner spinner1;
     private Spinner spinner2;
+
     private Button update_btn;
+    private ImageView image_loading;
+    private Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         moneyIn = (EditText) findViewById(R.id.money_in);
 
         update_btn = (Button) findViewById(R.id.update_btn);
+        image_loading = (ImageView) findViewById(R.id.image_loading);
 
         presenter = MainPresenter.getInstance();
         presenter.setView(this);
@@ -60,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return update_btn;
     }
 
-
     @Override
     protected void onDestroy() {
         presenter.onDestroy();
@@ -82,4 +89,33 @@ public class MainActivity extends AppCompatActivity implements MainView {
         moneyOut.setText(val);
     }
 
+    public void startLoader(){
+        animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
+        // set animation listener
+        animation.setAnimationListener(MainActivity.this);
+
+//        logo.setVisibility(View.VISIBLE);
+        image_loading.startAnimation(animation);
+        image_loading.setVisibility(View.VISIBLE);
+    }
+
+    public void stopLoader(){
+        image_loading.setVisibility(View.INVISIBLE);
+        image_loading.clearAnimation();
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }

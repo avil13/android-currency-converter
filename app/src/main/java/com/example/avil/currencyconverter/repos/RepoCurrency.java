@@ -3,10 +3,12 @@ package com.example.avil.currencyconverter.repos;
 import android.content.ContentValues;
 import android.content.Context;
 
+import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.ValuteGetted;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
 import com.example.avil.currencyconverter.model.database.CurrencyDB;
+import com.example.avil.currencyconverter.utils.LogMessage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +60,7 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
         update();
     }
 
+    @Override
     public void update(List<Valute> list) {
         // очищаем список в кэше
         course.clear();
@@ -77,6 +80,25 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
             callback = null;
         }
     }
+
+    @Override
+    public void onError() {
+        if(callback != null){
+            callback.onFinish();
+            callback = null;
+        }
+    }
+
+    @Override
+    public void log(String str) {
+        LogMessage.toast(str);
+    }
+
+    @Override
+    public void log(int str) {
+        LogMessage.toast(str);
+    }
+
 
     private void put(String code, String value, float nominal, float order) {
         float val = (Float.valueOf(value.replace(",", ".")) / nominal);

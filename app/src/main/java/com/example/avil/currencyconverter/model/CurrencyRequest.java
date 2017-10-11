@@ -8,7 +8,6 @@ import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
 import com.example.avil.currencyconverter.repos.IRepoCallback;
-import com.example.avil.currencyconverter.utils.LogMessage;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -24,8 +23,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     public CurrencyRequest(final IRepoCallback repo) {
 
-
-        LogMessage.toast(R.string.update_rate);
+        repo.log(R.string.update_rate);
 
         handlerThread = new HandlerThread("currency_request");
         handlerThread.start();
@@ -47,7 +45,7 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                     InputStream inputStream = urlConnection.getInputStream();
 
-                    LogMessage.toast(R.string.currency_loaded);
+                    repo.log(R.string.currency_loaded);
 
                     CurseParser curseParser = new CurseParser(inputStream);
 
@@ -58,7 +56,8 @@ public class CurrencyRequest implements ICurrencyRequest {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LogMessage.toast(R.string.currency_cant_load);
+                    repo.log(R.string.currency_cant_load);
+                    repo.onError();
                 } finally {
                     if (urlConnection != null) {
                         urlConnection.disconnect();

@@ -12,4 +12,7 @@ public interface MainView {
     Spinner getSpinner1();
     Spinner getSpinner2();
     Button getUpdateBtn();
+
+    void startLoader();
+    void stopLoader();
 }
