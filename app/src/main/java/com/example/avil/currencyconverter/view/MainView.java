@@ -1,10 +1,14 @@
 package com.example.avil.currencyconverter.view;
 
 
+import android.widget.EditText;
+import android.widget.Spinner;
+
 public interface MainView {
-    void updateMoneyOutText();
-
     void setValue(String value);
+    String getValue(String id);
 
-    void initSpinners();
+    EditText getMoneyIn();
+    Spinner getSpinner1();
+    Spinner getSpinner2();
 }

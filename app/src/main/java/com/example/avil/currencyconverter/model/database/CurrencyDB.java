@@ -59,7 +59,7 @@ public class CurrencyDB extends SQLiteOpenHelper {
      * @param key    Ключ - валюта
      * @param values
      */
-    public void createOrUpdae(String key, ContentValues values) {
+    public void createOrUpdate(String key, ContentValues values) {
         SQLiteDatabase db = getWritableDatabase();
 
         Cursor cursor = db.query(

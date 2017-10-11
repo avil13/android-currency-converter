@@ -1,20 +1,14 @@
 package com.example.avil.currencyconverter.model;
 
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Message;
 
 import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
-import com.example.avil.currencyconverter.model.database.CurrencyDB;
-import com.example.avil.currencyconverter.presenter.IMainPresenter;
+import com.example.avil.currencyconverter.repos.IRepoCallback;
 import com.example.avil.currencyconverter.utils.LogMessage;
-import com.example.avil.currencyconverter.view.MainActivity;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -28,11 +22,8 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private HandlerThread handlerThread;
 
-    private CurrencyDB currencyDB;
+    public CurrencyRequest(final IRepoCallback repo) {
 
-    public CurrencyRequest(final IMainPresenter presenter) {
-
-        currencyDB = new CurrencyDB(presenter.getContext());
 
         LogMessage.toast(R.string.update_rate);
 
@@ -61,21 +52,9 @@ public class CurrencyRequest implements ICurrencyRequest {
                     CurseParser curseParser = new CurseParser(inputStream);
 
                     // ====
-                    // Сохраняем в бд все валюты
+                    // Сохраняем все валюты
                     List<Valute> list = curseParser.getValute();
-
-                    // первый в списке
-                    put("RUB", "1", 1, 0);
-
-                    for (Valute v : list) {
-                        if (v.code.equals("EUR") || v.code.equals("USD")) {
-                            put(v.code, v.value, v.nominal, 1);
-                        } else {
-                            put(v.code, v.value, v.nominal, 2);
-                        }
-                    }
-
-                    presenter.updateViewData();
+                    repo.update(list);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -87,19 +66,6 @@ public class CurrencyRequest implements ICurrencyRequest {
                 }
             }
         });
-
-
-    }
-
-    private void put(String code, String value, float nominal, float order) {
-        float val = (Float.valueOf(value.replace(",", ".")) / nominal);
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(CurrencyDB.FeedEntry.KEY_NAME, code);
-        contentValues.put(CurrencyDB.FeedEntry.KEY_VALUE, val);
-        contentValues.put(CurrencyDB.FeedEntry.KEY_ORDER, order);
-
-        currencyDB.createOrUpdae(code, contentValues);
     }
 
     public void onDestroy() {
