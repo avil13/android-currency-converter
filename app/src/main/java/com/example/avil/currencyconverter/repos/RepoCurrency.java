@@ -24,6 +24,8 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
 
     private CurrencyRequest currencyRequest;
 
+    LogMessage logger;
+
 
     public RepoCurrency(Context context) {
         currencyDB = new CurrencyDB(context);
@@ -99,6 +101,15 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
         LogMessage.toast(str);
     }
 
+    public void log(int str, boolean is_error) {
+        if (is_error) {
+
+        }
+        LogMessage.toast(str);
+    }
+
+
+
 
     private void put(String code, String value, float nominal, float order) {
         float val = (Float.valueOf(value.replace(",", ".")) / nominal);
@@ -117,5 +128,10 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
         if (currencyRequest != null) {
             currencyRequest.onDestroy();
         }
+    }
+
+    @Override
+    public void setLogger(LogMessage logger) {
+        this.logger = logger;
     }
 }

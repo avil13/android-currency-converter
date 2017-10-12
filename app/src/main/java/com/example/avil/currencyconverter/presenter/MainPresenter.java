@@ -54,7 +54,6 @@ public class MainPresenter implements IMainPresenter  {
     }
 
     public void update(){
-        mainView.startLoader();
 
         repo.update(new IRepoCallbackData(){
 
@@ -65,7 +64,6 @@ public class MainPresenter implements IMainPresenter  {
                     @Override
                     public void run() {
                         initActions();
-                        mainView.stopLoader();
                     }
                 });
             }

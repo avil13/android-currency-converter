@@ -21,7 +21,14 @@ public class CurrencyRequest implements ICurrencyRequest {
 
     private HandlerThread handlerThread;
 
+    private static volatile boolean isActive = false;
+
     public CurrencyRequest(final IRepoCallback repo) {
+
+        if (isActive) {
+            repo.log(R.string.request_already_sent);
+            return;
+        }
 
         repo.log(R.string.update_rate);
 
@@ -35,11 +42,13 @@ public class CurrencyRequest implements ICurrencyRequest {
             @Override
             public void run() {
 
+                isActive = true;
+
                 HttpURLConnection urlConnection = null;
-                URL url;
 
                 try {
-                    url = new URL(path);
+
+                    URL url = new URL(path);
 
                     urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -59,6 +68,8 @@ public class CurrencyRequest implements ICurrencyRequest {
                     repo.log(R.string.currency_cant_load);
                     repo.onError();
                 } finally {
+                    isActive = false;
+
                     if (urlConnection != null) {
                         urlConnection.disconnect();
                     }
