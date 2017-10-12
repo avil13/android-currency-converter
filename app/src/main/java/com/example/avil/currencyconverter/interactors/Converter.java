@@ -1,4 +1,4 @@
-package com.example.avil.currencyconverter.model;
+package com.example.avil.currencyconverter.interactors;
 
 import android.content.Context;
 

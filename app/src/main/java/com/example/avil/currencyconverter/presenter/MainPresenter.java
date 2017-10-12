@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.avil.currencyconverter.R;
-import com.example.avil.currencyconverter.model.Converter;
+import com.example.avil.currencyconverter.interactors.Converter;
 import com.example.avil.currencyconverter.repos.IRepoCallbackData;
 import com.example.avil.currencyconverter.repos.IRepoCurrency;
 import com.example.avil.currencyconverter.repos.RepoCurrency;
