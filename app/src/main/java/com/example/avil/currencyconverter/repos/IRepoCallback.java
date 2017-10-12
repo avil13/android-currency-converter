@@ -5,7 +5,8 @@ import java.util.List;
 
 public interface IRepoCallback <T>{
     void update(List<T> list);
-    void onError();
+    // метод связанный с интерфейсом IRepoCallbackData
+    void onFinish();
     void log(String str);
     void log(int str);
 }

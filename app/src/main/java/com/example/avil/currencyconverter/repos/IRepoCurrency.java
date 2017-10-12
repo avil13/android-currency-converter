@@ -1,6 +1,5 @@
 package com.example.avil.currencyconverter.repos;
 
-import com.example.avil.currencyconverter.utils.LogMessage;
 
 public interface IRepoCurrency {
     float get(String key);
@@ -13,5 +12,4 @@ public interface IRepoCurrency {
 
     void onDestroy();
 
-    void setLogger(LogMessage logger);
 }

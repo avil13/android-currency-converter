@@ -3,7 +3,6 @@ package com.example.avil.currencyconverter.repos;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.ValuteGetted;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
@@ -23,8 +22,6 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
     private CurrencyDB currencyDB;
 
     private CurrencyRequest currencyRequest;
-
-    LogMessage logger;
 
 
     public RepoCurrency(Context context) {
@@ -84,7 +81,7 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
     }
 
     @Override
-    public void onError() {
+    public void onFinish() {
         if(callback != null){
             callback.onFinish();
             callback = null;
@@ -100,15 +97,6 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
     public void log(int str) {
         LogMessage.toast(str);
     }
-
-    public void log(int str, boolean is_error) {
-        if (is_error) {
-
-        }
-        LogMessage.toast(str);
-    }
-
-
 
 
     private void put(String code, String value, float nominal, float order) {
@@ -128,10 +116,5 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
         if (currencyRequest != null) {
             currencyRequest.onDestroy();
         }
-    }
-
-    @Override
-    public void setLogger(LogMessage logger) {
-        this.logger = logger;
     }
 }

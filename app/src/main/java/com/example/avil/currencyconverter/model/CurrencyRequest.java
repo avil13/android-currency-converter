@@ -66,8 +66,8 @@ public class CurrencyRequest implements ICurrencyRequest {
                 } catch (Exception e) {
                     e.printStackTrace();
                     repo.log(R.string.currency_cant_load);
-                    repo.onError();
                 } finally {
+                    repo.onFinish();
                     isActive = false;
 
                     if (urlConnection != null) {

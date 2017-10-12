@@ -16,7 +16,7 @@ import com.example.avil.currencyconverter.repos.RepoCurrency;
 import com.example.avil.currencyconverter.view.MainView;
 
 
-public class MainPresenter implements IMainPresenter  {
+public class MainPresenter implements IMainPresenter {
 
     private static MainPresenter instance = new MainPresenter();
 
@@ -53,17 +53,20 @@ public class MainPresenter implements IMainPresenter  {
         updated = true;
     }
 
-    public void update(){
+    public void update() {
+        progress(true);
 
-        repo.update(new IRepoCallbackData(){
+        repo.update(new IRepoCallbackData() {
 
             public void onFinish() {
+
                 Activity activity = (Activity) mainView;
                 // Колбек при обновлении данных
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         initActions();
+                        progress(false);
                     }
                 });
             }
@@ -152,4 +155,11 @@ public class MainPresenter implements IMainPresenter  {
         });
     }
 
+    private void progress(boolean show) {
+        if (show) {
+            mainView.getProgressBar().setVisibility(View.VISIBLE);
+        } else {
+            mainView.getProgressBar().setVisibility(View.GONE);
+        }
+    }
 }

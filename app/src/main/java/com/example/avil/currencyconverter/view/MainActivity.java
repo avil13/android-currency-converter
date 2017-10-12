@@ -2,8 +2,11 @@ package com.example.avil.currencyconverter.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private Button update_btn;
 
+    private ProgressBar progressBar;
+    private FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         update_btn = (Button) findViewById(R.id.update_btn);
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+        // ===
         presenter = MainPresenter.getInstance();
         presenter.setView(this);
     }
@@ -59,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public Button getUpdateBtn() {
         return update_btn;
+    }
+
+    @Override
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 
     @Override

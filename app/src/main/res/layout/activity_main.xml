@@ -63,18 +63,32 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="#4385f4"
+        android:drawableLeft="@drawable/arrows_rotate"
+        android:paddingEnd="30dp"
         android:paddingLeft="10dp"
         android:paddingRight="30dp"
         android:paddingStart="10dp"
-        android:paddingEnd="30dp"
         android:text="@string/update_curce"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:drawableLeft="@drawable/arrows_rotate"
         app:srcCompat="@drawable/arrows_rotate"
         tools:ignore="VectorDrawableCompat" />
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@android:color/transparent"
+        android:indeterminate="true"
+        android:progressDrawable="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
