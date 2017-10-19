@@ -11,10 +11,9 @@ import android.widget.TextView;
 public interface MainView {
     void setValue(String value);
 
-    EditText getMoneyIn();
-    Spinner getSpinner1();
-    Spinner getSpinner2();
-    Button getUpdateBtn();
-    ProgressBar getProgressBar();
+    void initSpinner(String[] data);
+
+    void showProgressBar();
+    void hideProgressBar();
 
 }

@@ -8,7 +8,7 @@ public interface IMainPresenter {
 
     void update();
 
-    void convert();
+    void convert(String from, String to, String v);
 
     void onDestroy();
 }

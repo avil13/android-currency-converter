@@ -2,13 +2,19 @@ package com.example.avil.currencyconverter.repos;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.os.AsyncTask;
 
+import com.example.avil.currencyconverter.R;
 import com.example.avil.currencyconverter.model.CurrencyRequest;
 import com.example.avil.currencyconverter.model.ValuteGetted;
+import com.example.avil.currencyconverter.model.curse_value.CurseParser;
 import com.example.avil.currencyconverter.model.curse_value.Valute;
 import com.example.avil.currencyconverter.model.database.CurrencyDB;
 import com.example.avil.currencyconverter.utils.LogMessage;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +28,8 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
     private CurrencyDB currencyDB;
 
     private CurrencyRequest currencyRequest;
+
+    private static RepoRequest repoRequest = null;
 
 
     public RepoCurrency(Context context) {
@@ -50,7 +58,12 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
      */
     @Override
     public void update() {
-        currencyRequest = new CurrencyRequest(this);
+//        currencyRequest = new CurrencyRequest(this);
+        if(repoRequest  != null) {
+            log(R.string.request_already_sent);
+            return;
+        }
+        repoRequest = (RepoRequest) new RepoRequest().execute("http://www.cbr.ru/scripts/XML_daily.asp");
     }
 
     @Override
@@ -74,7 +87,7 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
             }
         }
 
-        if(callback != null){
+        if (callback != null) {
             callback.onFinish();
             callback = null;
         }
@@ -82,9 +95,12 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
 
     @Override
     public void onFinish() {
-        if(callback != null){
+        if (callback != null) {
             callback.onFinish();
             callback = null;
+        }
+        if (repoRequest != null) {
+            repoRequest = null;
         }
     }
 
@@ -115,6 +131,55 @@ public class RepoCurrency implements IRepoCurrency, IRepoCallback<Valute> {
     public void onDestroy() {
         if (currencyRequest != null) {
             currencyRequest.onDestroy();
+        }
+        if (repoRequest != null) {
+            repoRequest.cancel(true);
+        }
+    }
+
+
+    private class RepoRequest extends AsyncTask<String, Void, List<Valute>> {
+
+        @Override
+        protected List<Valute> doInBackground(String... path) {
+            HttpURLConnection urlConnection = null;
+
+
+            try {
+                log(R.string.update_rate);
+
+                URL url = new URL(path[0]);
+
+                urlConnection = (HttpURLConnection) url.openConnection();
+
+                InputStream inputStream = urlConnection.getInputStream();
+
+                log(R.string.currency_loaded);
+
+                CurseParser curseParser = new CurseParser(inputStream);
+
+                // Сохраняем все валюты =   =   =   =
+                List<Valute> list = curseParser.getValute();
+
+                return list;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                onFinish();
+
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(List<Valute> result) {
+            if (result != null) {
+                onFinish();
+            }
         }
     }
 }

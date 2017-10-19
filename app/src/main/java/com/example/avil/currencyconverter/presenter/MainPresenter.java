@@ -43,8 +43,6 @@ public class MainPresenter implements IMainPresenter {
         converter = new Converter(this.getContext());
         repo = new RepoCurrency(this.getContext());
 
-        initActions();
-
         if (updated == true) {
             return;
         }
@@ -54,19 +52,18 @@ public class MainPresenter implements IMainPresenter {
     }
 
     public void update() {
-        progress(true);
+        mainView.showProgressBar();
 
         repo.update(new IRepoCallbackData() {
 
             public void onFinish() {
-
                 Activity activity = (Activity) mainView;
                 // Колбек при обновлении данных
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        initActions();
-                        progress(false);
+                        mainView.initSpinner(repo.getCurrencys());
+                        mainView.hideProgressBar();
                     }
                 });
             }
@@ -86,10 +83,7 @@ public class MainPresenter implements IMainPresenter {
      * Метод для пересчета результата
      */
     @Override
-    public void convert() {
-        String from = mainView.getSpinner1().getSelectedItem().toString();
-        String to = mainView.getSpinner2().getSelectedItem().toString();
-        String v = mainView.getMoneyIn().getText().toString();
+    public void convert(String from, String to, String v) {
         String value;
 
         if ("".equals(v)) {
@@ -103,63 +97,4 @@ public class MainPresenter implements IMainPresenter {
         mainView.setValue(value);
     }
 
-    private void initActions() {
-        makeSpinner(mainView.getSpinner1(), 0);
-        makeSpinner(mainView.getSpinner2(), 1);
-
-        mainView.getMoneyIn().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP) {
-                    convert();
-                }
-                return false;
-            }
-        });
-
-        mainView.getUpdateBtn().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view.getId() == R.id.update_btn) {
-                    update();
-                }
-            }
-        });
-    }
-
-    private void makeSpinner(Spinner spinner, int pos) {
-        String[] data = repo.getCurrencys();
-        // адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, data);
-
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-
-        if (data.length <= pos) {
-            pos = 0;
-        }
-        spinner.setSelection(pos); // Выделение элемента
-
-        // обработчик нажатия
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                convert();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
-    private void progress(boolean show) {
-        if (show) {
-            mainView.getProgressBar().setVisibility(View.VISIBLE);
-        } else {
-            mainView.getProgressBar().setVisibility(View.GONE);
-        }
-    }
 }
